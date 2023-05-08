@@ -1,5 +1,5 @@
 #TRSS AllBot Docker 安装脚本 作者：时雨🌌星空
-NAME=v1.0.0;VERSION=202304140
+NAME=v1.0.0;VERSION=202305080
 R="[1;31m" G="[1;32m" Y="[1;33m" C="[1;36m" B="[1;m" O="[m"
 echo "$B———————————————————————————
 $R TRSS$Y AllBot$G Docker$C Script$O
@@ -150,7 +150,7 @@ $Y- 正在启动 Docker 容器$O
 "
 docker rm -f $DKNAME 2>/dev/null
 docker image prune -f
-docker run -itd -h TRSS-AllBot --name $DKNAME -v "$DIR":/root/TRSS_AllBot -v /var/run/docker.sock:/var/run/docker.sock --restart always $([ $DKNAME = TRSS_AllBot ]&&echo "-p 2536 -p 8080-8081:8080-8081 -p 8088:8088 -p 13579:13579 -p 50831:50831 -p 54980:54980"||echo "-P") trss:allbot||abort "Docker 容器启动失败"
+docker run -itd -h TRSS-AllBot --name $DKNAME -v "$DIR":/root/TRSS_AllBot -v /var/run/docker.sock:/var/run/docker.sock --restart always $([ $DKNAME = TRSS_AllBot ]&&echo "-p 2536:2536 -p 8080-8081:8080-8081 -p 8088:8088 -p 13579:13579 -p 50831:50831 -p 54980:54980"||echo "-P") trss:allbot||abort "Docker 容器启动失败"
 mkdir -vp "$CMDPATH"&&
 echo -n 'if [ -n "$1" ];then exec docker exec -it '$DKNAME' bash Main.sh "$@";else exec docker attach '$DKNAME';fi'>"$CMDPATH/$CMD"&&
 chmod 755 "$CMDPATH/$CMD"||abort "脚本执行命令 $CMDPATH/$CMD 设置失败，手动执行命令：docker attach $DKNAME"
