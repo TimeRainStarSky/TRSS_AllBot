@@ -1,5 +1,5 @@
 #TRSS AllBot Docker 安装脚本 作者：时雨🌌星空
-NAME=v1.0.0;VERSION=202305080
+NAME=v1.0.0;VERSION=202305190
 R="[1;31m" G="[1;32m" Y="[1;33m" C="[1;36m" B="[1;m" O="[m"
 echo "$B———————————————————————————
 $R TRSS$Y AllBot$G Docker$C Script$O
@@ -64,7 +64,7 @@ echo "
 $B  最新版本：$G$NEWNAME$C ($NEWVER)$O
 
   开始下载"
-mkdir -vp "$DIR"
+mkdir -vp "$DIR"&&
 geturl "$URL/Main.sh">"$DIR/Main.sh"||abort_update "下载失败"
 [ "$(md5sum "$DIR/Main.sh"|head -c 32)" = "$NEWMD5" ]||abort_update "下载文件校验错误"
 echo "
@@ -155,7 +155,8 @@ mkdir -vp "$CMDPATH"&&
 echo -n 'if [ -n "$1" ];then exec docker exec -it '$DKNAME' bash Main.sh "$@";else exec docker attach '$DKNAME';fi'>"$CMDPATH/$CMD"&&
 chmod 755 "$CMDPATH/$CMD"||abort "脚本执行命令 $CMDPATH/$CMD 设置失败，手动执行命令：docker attach $DKNAME"
 echo "
-$G- Docker 容器安装完成，启动命令：$C$CMD$O";exit;}
+$G- Docker 容器安装完成，启动命令：$C$CMD$O"
+exit;}
 echo "
 $Y- 正在下载脚本$O"
 geturl(){ curl -L --retry 2 --connect-timeout 5 "$@";}
