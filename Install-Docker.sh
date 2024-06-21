@@ -1,5 +1,5 @@
 #TRSS AllBot Docker 安装脚本 作者：时雨🌌星空
-NAME=v1.0.0;VERSION=202402030
+NAME=v1.0.0 VERSION=202406210
 R="[1;31m" G="[1;32m" Y="[1;33m" C="[1;36m" B="[1;m" O="[m"
 echo "$B———————————————————————————
 $R TRSS$Y AllBot$G Docker$C Script$O
@@ -13,7 +13,7 @@ DIR="${DIR:-$HOME/TRSS_AllBot}"
 CMD="${CMD:-tsab}"
 CMDPATH="${CMDPATH:-/usr/local/bin}"
 DKNAME="${DKNAME:-TRSS_AllBot}"
-DKURL="${DKURL:-docker.nju.edu.cn}"
+DKURL="${DKURL:-docker.m.daocloud.io}"
 abort(){ echo "
 $R! $@$O";exit 1;}
 mktmp(){ TMP="$DIR/tmp"&&rm -rf "$TMP"&&mkdir -p "$TMP"||abort "缓存目录创建失败";}
@@ -73,17 +73,18 @@ N=1
 until echo "
 $Y- 正在从 $C$DKURL$Y 下载 Docker 容器$O
 "
-docker pull "$DKURL/menci/archlinuxarm";do
+docker pull "$DKURL/ogarcia/archlinux";do
   echo "
 $R! 下载失败，5秒后切换镜像源$O"
   sleep 5
   ((N++))
   case "$N" in
-    1)DKURL="docker.nju.edu.cn";;
+    1)DKURL="docker.m.daocloud.io";;
     2)DKURL="mirror.ccs.tencentyun.com";;
-    3)DKURL="mirror.baidubce.com";;
-    4)DKURL="dockerproxy.com";;
-    5)DKURL="docker.m.daocloud.io";;
+    3)DKURL="dockerhub.timeweb.cloud";;
+    4)DKURL="mirror.baidubce.com";;
+    5)DKURL="docker.nju.edu.cn";;
+    6)DKURL="dockerproxy.com";;
     *)DKURL="docker.io";N=0
   esac
 done
@@ -131,7 +132,7 @@ Server = https://mirrors.bfsu.edu.cn/arch4edu/$arch
 Server = https://mirrors.tuna.tsinghua.edu.cn/arch4edu/$arch
 Server = https://mirrors.aliyun.com/arch4edu/$arch
 Server = https://mirrors.tencent.com/arch4edu/$arch'>>pacman.conf
-echo "FROM $DKURL"'/menci/archlinuxarm
+echo "FROM $DKURL"'/ogarcia/archlinux
 ENV LANG=zh_CN.UTF-8 TERM=xterm-256color
 COPY mirrorlist /etc/pacman.d
 COPY pacman.conf /etc
