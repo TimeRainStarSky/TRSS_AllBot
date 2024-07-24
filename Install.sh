@@ -1,5 +1,5 @@
 #TRSS AllBot 安装脚本 作者：时雨🌌星空
-NAME=v1.0.0 VERSION=202305190
+NAME=v1.0.0 VERSION=202307240
 R="[1;31m" G="[1;32m" Y="[1;33m" C="[1;36m" B="[1;m" O="[m"
 echo "$B————————————————————————————
 $R TRSS$Y AllBot$G Install$C Script$O
@@ -30,14 +30,12 @@ $R! $@$O";[ "$N" -lt 10 ]&&{ ((N++));download;}||abort "脚本下载失败，请
 download(){ case "$N" in
   2)Server="GitHub" URL="https://github.com/TimeRainStarSky/TRSS_AllBot/raw/main";;
   1)Server="Gitee" URL="https://gitee.com/TimeRainStarSky/TRSS_AllBot/raw/main";;
-  3)Server="Agit" URL="https://agit.ai/TimeRainStarSky/TRSS_AllBot/raw/branch/main";;
-  4)Server="Coding" URL="https://trss.coding.net/p/TRSS/d/AllBot/git/raw/main";;
-  5)Server="GitLab" URL="https://gitlab.com/TimeRainStarSky/TRSS_AllBot/raw/main";;
-  6)Server="GitCode" URL="https://gitcode.net/TimeRainStarSky1/TRSS_AllBot/raw/main";;
-  7)Server="GitLink" URL="https://gitlink.org.cn/api/TimeRainStarSky/TRSS_AllBot/raw?ref=main&filepath=";;
-  8)Server="JiHuLab" URL="https://jihulab.com/TimeRainStarSky/TRSS_AllBot/raw/main";;
-  9)Server="Jsdelivr" URL="https://cdn.jsdelivr.net/gh/TimeRainStarSky/TRSS_AllBot@main";;
-  10)Server="Bitbucket" URL="https://bitbucket.org/TimeRainStarSky/TRSS_AllBot/raw/main"
+  3)Server="Coding" URL="https://trss.coding.net/p/TRSS/d/AllBot/git/raw/main";;
+  4)Server="GitLab" URL="https://gitlab.com/TimeRainStarSky/TRSS_AllBot/raw/main";;
+  5)Server="GitCode" URL="https://gitcode.net/TimeRainStarSky1/TRSS_AllBot/raw/main";;
+  6)Server="GitLink" URL="https://gitlink.org.cn/api/TimeRainStarSky/TRSS_AllBot/raw?ref=main&filepath=";;
+  7)Server="Jsdelivr" URL="https://cdn.jsdelivr.net/gh/TimeRainStarSky/TRSS_AllBot@main";;
+  8)Server="Bitbucket" URL="https://bitbucket.org/TimeRainStarSky/TRSS_AllBot/raw/main"
 esac
 echo "
   正在从 $Server 服务器 下载版本信息"
