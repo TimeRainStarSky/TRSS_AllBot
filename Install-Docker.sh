@@ -83,6 +83,8 @@ $R! 下载失败，5秒后切换镜像源$O"
     4)DKURL="mirror.baidubce.com";;
     5)DKURL="docker.nju.edu.cn";;
     6)DKURL="dockerproxy.com";;
+    7)DKURL="docker.escateam.icu";;
+    8)DKURL="docker.escaped.icu";;
     *)DKURL="docker.io";N=0
   esac
 done
