@@ -1,5 +1,5 @@
 #TRSS AllBot Docker 安装脚本 作者：时雨🌌星空
-NAME=v1.0.0 VERSION=202411170
+NAME=v1.0.0 VERSION=202505070
 R="[1;31m" G="[1;32m" Y="[1;33m" C="[1;36m" B="[1;m" O="[m"
 echo "$B———————————————————————————
 $R TRSS$Y AllBot$G Docker$C Script$O
@@ -25,7 +25,7 @@ elif type pacman &>/dev/null;then
   echo "
 $Y- 正在使用 pacman 安装 Docker$O
 "
-  pacman -Syu --noconfirm --needed --overwrite "*" docker||abort "Docker 安装失败"
+  pacman -Syu --ask 255 --needed --overwrite "*" docker||abort "Docker 安装失败"
 elif type apt &>/dev/null;then
   echo "
 $Y- 正在使用 apt 安装 Docker$O
@@ -137,7 +137,7 @@ COPY pacman.conf /etc
 RUN ln -vsf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime\
  && echo "LANG=zh_CN.UTF-8">/etc/locale.conf\
  && echo "zh_CN.UTF-8 UTF-8">/etc/locale.gen\
- && pacman -Sy --noconfirm glibc\
+ && pacman -Sy --ask 255 glibc\
  && echo -n '\''exec bash /root/TRSS_AllBot/Main.sh "$@"'\''>/usr/local/bin/tsab\
  && chmod 755 /usr/local/bin/tsab\
  && rm -rf /var/cache/pacman/pkg/*

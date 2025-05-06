@@ -1,5 +1,5 @@
 #TRSS AllBot 安装脚本 作者：时雨🌌星空
-NAME=v1.0.0 VERSION=202307240
+NAME=v1.0.0 VERSION=202505070
 R="[1;31m" G="[1;32m" Y="[1;33m" C="[1;36m" B="[1;m" O="[m"
 echo "$B————————————————————————————
 $R TRSS$Y AllBot$G Install$C Script$O
@@ -24,7 +24,7 @@ type pacman &>/dev/null||abort "找不到 pacman 命令，请确认安装了正�
 type curl dialog &>/dev/null||{ echo "
 $Y- 正在安装依赖$O
 "
-pacman -Syu --noconfirm --needed --overwrite "*" curl dialog||abort "依赖安装失败";}
+pacman -Syu --ask 255 --needed --overwrite "*" curl dialog||abort "依赖安装失败";}
 abort_update(){ echo "
 $R! $@$O";[ "$N" -lt 10 ]&&{ ((N++));download;}||abort "脚本下载失败，请检查网络，并尝试重新下载";}
 download(){ case "$N" in
