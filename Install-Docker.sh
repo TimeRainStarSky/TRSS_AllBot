@@ -1,5 +1,5 @@
 #TRSS AllBot Docker 安装脚本 作者：时雨🌌星空
-NAME=v1.0.0 VERSION=202505210
+NAME=v1.0.0 VERSION=202505250
 R="[1;31m" G="[1;32m" Y="[1;33m" C="[1;36m" B="[1;m" O="[m"
 echo "$B———————————————————————————
 $R TRSS$Y AllBot$G Docker$C Script$O
@@ -112,6 +112,7 @@ Server = https://mirrors.tencent.com/archlinux/$repo/os/$arch'>mirrorlist;echo '
 Architecture = auto'>pacman.conf
 esac
 echo 'Color
+ILoveCandy
 ParallelDownloads = 5
 SigLevel = Never
 [core]
