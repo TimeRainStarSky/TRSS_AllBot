@@ -1,5 +1,5 @@
 #TRSS AllBot Docker 安装脚本 作者：时雨🌌星空
-NAME=v1.0.0 VERSION=202505250
+NAME=v1.0.0 VERSION=202507310
 R="[1;31m" G="[1;32m" Y="[1;33m" C="[1;36m" B="[1;m" O="[m"
 echo "$B———————————————————————————
 $R TRSS$Y AllBot$G Docker$C Script$O
@@ -67,11 +67,29 @@ geturl "$URL/Main.sh">"$DIR/Main.sh"||abort_update "下载失败"
 [ "$(md5sum "$DIR/Main.sh"|head -c 32)" = "$NEWMD5" ]||abort_update "下载文件校验错误"
 echo "
 $G- 脚本下载完成$O"
+mktmp
+cd "$TMP"
+case "$(uname -m)" in
+  aarch64|arm64|armv8*|armv9*)DKIMG=manjarolinux/base DKPRECMD=;echo 'Server = https://mirrors.ustc.edu.cn/manjaro/arm-stable/$repo/$arch
+Server = https://mirrors.tuna.tsinghua.edu.cn/manjaro/arm-stable/$repo/$arch
+Server = https://mirror.nju.edu.cn/manjaro/arm-stable/$repo/$arch
+Server = https://mirrors.pku.edu.cn/manjaro/arm-stable/$repo/$arch
+Server = https://mirrors.sjtug.sjtu.edu.cn/manjaro/arm-stable/$repo/$arch
+Server = https://mirrors.huaweicloud.com/manjaro/arm-stable/$repo/$arch'>mirrorlist;echo '[options]
+Architecture = aarch64'>pacman.conf;;
+  *)DKIMG=library/archlinux DKPRECMD=' && pacman -Sy --ask 255 glibc';echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch
+Server = https://mirrors.bfsu.edu.cn/archlinux/$repo/os/$arch
+Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
+Server = https://mirrors.aliyun.com/archlinux/$repo/os/$arch
+Server = https://mirrors.163.com/archlinux/$repo/os/$arch
+Server = https://mirrors.tencent.com/archlinux/$repo/os/$arch'>mirrorlist;echo '[options]
+Architecture = auto'>pacman.conf
+esac
 N=1
 until echo "
 $Y- 正在从 $C$DKURL$Y 下载 Docker 容器$O
 "
-docker pull "$DKURL/ogarcia/archlinux";do
+docker pull "$DKURL/$DKIMG";do
   echo "
 $R! 下载失败，5秒后切换镜像源$O"
   sleep 5
@@ -92,25 +110,6 @@ done
 echo "
 $Y- 正在构建 Docker 容器$O
 "
-mktmp
-cd "$TMP"
-case "$(uname -m)" in
-  aarch64|arm64|armv8*|armv9*)echo 'Server = https://mirrors.ustc.edu.cn/archlinuxarm/$arch/$repo
-Server = https://mirrors.bfsu.edu.cn/archlinuxarm/$arch/$repo
-Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxarm/$arch/$repo
-Server = https://mirrors.aliyun.com/archlinuxarm/$arch/$repo
-Server = https://mirrors.163.com/archlinuxarm/$arch/$repo
-Server = https://mirrors.tencent.com/archlinuxarm/$arch/$repo
-Server = https://mirror.archlinuxarm.org/$arch/$repo'>mirrorlist;echo '[options]
-Architecture = aarch64'>pacman.conf;;
-  *)echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch
-Server = https://mirrors.bfsu.edu.cn/archlinux/$repo/os/$arch
-Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
-Server = https://mirrors.aliyun.com/archlinux/$repo/os/$arch
-Server = https://mirrors.163.com/archlinux/$repo/os/$arch
-Server = https://mirrors.tencent.com/archlinux/$repo/os/$arch'>mirrorlist;echo '[options]
-Architecture = auto'>pacman.conf
-esac
 echo 'Color
 ILoveCandy
 ParallelDownloads = 5
@@ -132,14 +131,13 @@ Server = https://mirrors.bfsu.edu.cn/arch4edu/$arch
 Server = https://mirrors.tuna.tsinghua.edu.cn/arch4edu/$arch
 Server = https://mirrors.aliyun.com/arch4edu/$arch
 Server = https://mirrors.tencent.com/arch4edu/$arch'>>pacman.conf
-echo "FROM $DKURL"'/ogarcia/archlinux
+echo "FROM $DKURL/$DKIMG"'
 ENV LANG=zh_CN.UTF-8 TERM=xterm-256color
 COPY mirrorlist /etc/pacman.d
 COPY pacman.conf /etc
 RUN ln -vsf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime\
  && echo "LANG=zh_CN.UTF-8">/etc/locale.conf\
- && echo "zh_CN.UTF-8 UTF-8">/etc/locale.gen\
- && pacman -Sy --ask 255 glibc\
+ && echo "zh_CN.UTF-8 UTF-8">/etc/locale.gen'"$DKPRECMD"'\
  && echo -n '\''exec bash /root/TRSS_AllBot/Main.sh "$@"'\''>/usr/local/bin/tsab\
  && chmod 755 /usr/local/bin/tsab\
  && rm -rf /var/cache/pacman/pkg/*
