@@ -1,5 +1,5 @@
 #TRSS AllBot Docker 安装脚本 作者：时雨🌌星空
-NAME=v1.0.0 VERSION=202507310
+NAME=v1.0.0 VERSION=202507311
 R="[1;31m" G="[1;32m" Y="[1;33m" C="[1;36m" B="[1;m" O="[m"
 echo "$B———————————————————————————
 $R TRSS$Y AllBot$G Docker$C Script$O
@@ -70,14 +70,14 @@ $G- 脚本下载完成$O"
 mktmp
 cd "$TMP"
 case "$(uname -m)" in
-  aarch64|arm64|armv8*|armv9*)DKIMG=manjarolinux/base DKPRECMD=;echo 'Server = https://mirrors.ustc.edu.cn/manjaro/arm-stable/$repo/$arch
+  aarch64|arm64|armv8*|armv9*)DKIMG=manjarolinux/base DKPRECMD=locale-gen;echo 'Server = https://mirrors.ustc.edu.cn/manjaro/arm-stable/$repo/$arch
 Server = https://mirrors.tuna.tsinghua.edu.cn/manjaro/arm-stable/$repo/$arch
 Server = https://mirror.nju.edu.cn/manjaro/arm-stable/$repo/$arch
 Server = https://mirrors.pku.edu.cn/manjaro/arm-stable/$repo/$arch
 Server = https://mirrors.sjtug.sjtu.edu.cn/manjaro/arm-stable/$repo/$arch
 Server = https://mirrors.huaweicloud.com/manjaro/arm-stable/$repo/$arch'>mirrorlist;echo '[options]
 Architecture = aarch64'>pacman.conf;;
-  *)DKIMG=library/archlinux DKPRECMD=' && pacman -Sy --ask 255 glibc';echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch
+  *)DKIMG=library/archlinux DKPRECMD='pacman -Sy --ask 255 glibc';echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch
 Server = https://mirrors.bfsu.edu.cn/archlinux/$repo/os/$arch
 Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
 Server = https://mirrors.aliyun.com/archlinux/$repo/os/$arch
@@ -137,7 +137,8 @@ COPY mirrorlist /etc/pacman.d
 COPY pacman.conf /etc
 RUN ln -vsf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime\
  && echo "LANG=zh_CN.UTF-8">/etc/locale.conf\
- && echo "zh_CN.UTF-8 UTF-8">/etc/locale.gen'"$DKPRECMD"'\
+ && echo "zh_CN.UTF-8 UTF-8">/etc/locale.gen\
+ && '"$DKPRECMD"'\
  && echo -n '\''exec bash /root/TRSS_AllBot/Main.sh "$@"'\''>/usr/local/bin/tsab\
  && chmod 755 /usr/local/bin/tsab\
  && rm -rf /var/cache/pacman/pkg/*
